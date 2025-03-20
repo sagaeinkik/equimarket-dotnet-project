@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace EquiMarket.Models;
-
-public class HorseModel
+public class HorseCreateViewModel
 {
 
-    public int Id { get; set; }
 
     //Namn
     [Required(ErrorMessage = "Du måste fylla i hästens namn")]
@@ -67,10 +66,11 @@ public class HorseModel
 
     //Bild
     [Display(Name = "Bild")]
-    public string? ImagePath { get; set; }
+    public IFormFile? ImageFile { get; set; }
 
     //Pris
     [Display(Name = "Pris")]
     [Required(ErrorMessage = "Du måste fylla i pris.")]
     public int Price { get; set; }
+
 }
