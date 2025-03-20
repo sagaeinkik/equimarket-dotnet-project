@@ -1,0 +1,26 @@
+﻿@page
+@model IndexModel
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    ViewData["Title"] = "Profil";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+@* Inloggad som *@
+@{
+    if (user != null)
+    {
+            <p>Inloggad som @user.FirstName @user.LastName</p>
+            <p>Epost: @user.Email</p>
+            <a id="email" asp-page="./Email">Ändra epost</a>
+    }
+}
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,33 @@
+﻿@page
+@model DeletePersonalDataModel
+@{
+    ViewData["Title"] = "Radera personlig data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div role="alert">
+    <p>
+        Genom att radera personlig data raderas även kontot. Detta går inte att ångra.
+    </p>
+</div>
+
+<div>
+    <form id="delete-user" method="post">
+        <div asp-validation-summary="ModelOnly" role="alert"></div>
+        @if (Model.RequirePassword)
+        {
+            <div>
+                <input asp-for="Input.Password" aria-required="true" placeholder="Ange ditt lösenord" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password"></span>
+            </div>
+        }
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Radera data och ta bort mitt konto</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

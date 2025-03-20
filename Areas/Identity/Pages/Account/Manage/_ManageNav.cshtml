@@ -1,0 +1,9 @@
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<ul>
+    <li><a id="profile" asp-page="./Index">Profil</a></li>
+    <li><a href="#">Mina annonser</a></li>
+    <li><a id="personal-data" asp-page="./PersonalData">Persondata</a></li>
+</ul>

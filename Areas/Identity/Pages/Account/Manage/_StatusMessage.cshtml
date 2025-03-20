@@ -1,0 +1,10 @@
+﻿@model string
+
+@if (!String.IsNullOrEmpty(Model))
+{
+    var statusMessageClass = Model.StartsWith("Error") ? "error" : "success";
+    <div role="alert">
+        <button type="button" data-bs-dismiss="alert" aria-label="Stäng"></button>
+        @Model
+    </div>
+}
