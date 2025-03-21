@@ -29,7 +29,7 @@ namespace EquiMarket.Controllers
 
         // GET: Alla annonser
         [Route("ads")]
-        public async Task<IActionResult> Index(HorseSearchViewModel model)
+        public async Task<IActionResult> Index(HorseSearchViewModel model, int pageNumber = 1, int pageSize = 10)
         {
             //Om null, skicka bara tom lista
             if (model == null)
@@ -106,8 +106,21 @@ namespace EquiMarket.Controllers
                 query = query.Where(h => h.Price <= model.MaxPrice.Value);
             }
 
-            var horses = await query.ToListAsync();
-            var viewModel = (SearchModel: model, Horses: horses);
+            //Räkna hästar och hämta sida av resultat
+            int totalHorses = await query.CountAsync();
+            var horses = await query
+                .OrderByDescending(h => h.CreatedDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var viewModel = new HorseListViewModel
+            {
+                SearchModel = model,
+                Horses = horses,
+                PageNumber = pageNumber,
+                TotalPages = (int)Math.Ceiling(totalHorses / (double)pageSize)
+            };
             return View(viewModel);
         }
 
@@ -210,8 +223,10 @@ namespace EquiMarket.Controllers
                     GrandSire = model.GrandSire,
                     Title = model.Title,
                     Content = model.Content,
-                    Price = model.Price
-                };
+                    Price = model.Price,
+                    CreatedDate = DateTime.Now
+                }
+            ;
 
                 //Kolla om bild har laddats upp
                 if (model.ImageFile != null && model.ImageFile.Length > 0)

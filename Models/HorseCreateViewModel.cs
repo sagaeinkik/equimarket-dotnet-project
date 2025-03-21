@@ -82,4 +82,6 @@ public class HorseCreateViewModel
     [Required(ErrorMessage = "Du måste fylla i pris.")]
     public int Price { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
 }

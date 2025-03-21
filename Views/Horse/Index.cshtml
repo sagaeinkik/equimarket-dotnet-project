@@ -1,4 +1,4 @@
-@model (HorseSearchViewModel SearchModel, List<HorseModel> Horses)
+@model HorseListViewModel
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> UserManager
 
@@ -182,3 +182,17 @@
         </div>
     </div>
 }
+
+<div class="pagination">
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)">Föregående</a>
+    }
+
+    <span>Sida @Model.PageNumber av @Model.TotalPages</span>
+
+    @if (Model.HasNextPage)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)">Nästa</a>
+    }
+</div>
