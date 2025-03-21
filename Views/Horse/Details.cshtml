@@ -1,102 +1,74 @@
+@using Microsoft.AspNetCore.Identity
 @model EquiMarket.Models.HorseModel
+@inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Hästannons";
+    var horseAge = DateTime.Now.Year - Model.BirthDate.Year;
+    var currentUser = UserManager.GetUserAsync(User).Result;
+    var seller = ViewBag.Seller as ApplicationUser;
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
-<div>
-    <h4>HorseModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BirthDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Breed)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Breed)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AdType)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AdType)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Discipline)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Discipline)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Dam)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Dam)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sire)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sire)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DamSire)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DamSire)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GrandSire)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.GrandSire)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="horse-detail">
+    <h2>@Model.Title</h2>
+    
+    @if (currentUser?.Id == Model.UserId)
+    {
+        <div class="ad-ctrls"> 
+            <a asp-action="Edit" asp-route-id="@Model.Id">Redigera annons</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id">Radera annons</a>
+        </div>
+    }
+    @if (Model.ImagePath != null)
+    {
+        <img src="@Model.ImagePath" alt="@Model.Name" />
+    }
+    else
+    {
+        <img src="/images/horses/website-images/outline.svg" alt="Defaulbild" style="width: 100px">
+    }
+    <p><span>@Html.DisplayNameFor(model => model.Name): </span>@Model.Name</p>
+    <p><span> @Html.DisplayNameFor(model => model.BirthDate): </span>@Model.BirthDate.ToString("yyyy-MM-dd") (@horseAge
+        år)</p>
+    <p><span>@Html.DisplayNameFor(model => model.Gender): </span>@Model.Gender</p>
+    <p><span>@Html.DisplayNameFor(model => model.Breed): </span>@(Model.Breed != null ? Model.Breed : "-")</p>
+    <p><span>@Html.DisplayNameFor(model => model.Height): </span>@(Model.Height != null ? Model.Height + " cm" : "Ej angivet")
+    </p>
+    <p><span>@Html.DisplayNameFor(model => model.AdType): </span>@Model.AdType</p>
+    <p><span>@Html.DisplayNameFor(model => model.Discipline): </span>@(Model.Discipline != null ? Model.Discipline :
+        "-")
+    </p>
+    <div class="pedigree">
+        <p><span>@Html.DisplayNameFor(model => model.Dam) </span>@(Model.Dam != null ? Model.Dam : "Okänd")</p>
+        <p><span>@Html.DisplayNameFor(model => model.Sire) </span>@(Model.Sire != null ? Model.Sire : "Okänd")</p>
+        <p><span>@Html.DisplayNameFor(model => model.DamSire) </span>@(Model.DamSire != null ? Model.DamSire : "Okänd")
+        </p>
+        <p><span>@Html.DisplayNameFor(model => model.GrandSire) </span>@(Model.GrandSire != null ? Model.GrandSire :
+                        "Okänd")</ p >
+    </div>
+    <section>
+        <h3>@Html.DisplayNameFor(model => model.Content)</h3>
+        <p>@Model.Content</p>
+    </section>
+    <p class="price"><span>@Model.Price</span></p>
+
+    @* Kontaktuppgifter (användare) *@
+    <div class="contact-info">
+        <h3>Kontaktuppgifter</h3>
+        @if (seller != null)
+        {
+            <p><span>Säljare: </span>@seller.FirstName @seller.LastName</p>
+            <a href="mailto:@seller.Email">Kontakta säljaren</a>
+        }
+        else
+        {
+            <p>Kontaktuppgifter saknas</p>
+        }
+    </div>
+
+    <div>
+        <a asp-action="Index">Tillbaka till annonser</a>
+    </div>
 </div>

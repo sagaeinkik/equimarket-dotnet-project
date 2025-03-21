@@ -161,6 +161,10 @@ namespace EquiMarket.Controllers
                 return NotFound();
             }
 
+            // Hämta säljarens information
+            var seller = await _userManager.FindByIdAsync(horseModel.UserId!);
+            ViewBag.Seller = seller;
+
             return View(horseModel);
         }
 

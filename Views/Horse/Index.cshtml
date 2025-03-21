@@ -32,13 +32,13 @@
     </div>
 
     <div class="form-group">
-        @{ 
+        @{
             //Val i enum
             var genderOptions = new List<string> { "Hingst", "Sto", "Valack" };
             //Gör om till strings (enums lagras som integer i databas)
             var selectedGender = Model.SearchModel.Gender?.ToString();
         }
-        
+
         <label for="Gender">Kön</label>
         <select name="Gender" id="Gender">
             @if (selectedGender == null)
@@ -83,7 +83,7 @@
 
     <div class="form-group">
         <label for="AdType">Annonstyp</label>
-        @{ 
+        @{
             //Val i enum
             var adTypeOptions = new List<string> { "Säljes", "Köpes" };
             //Gör om till strings (enums lagras som integer i databas)
@@ -98,7 +98,7 @@
             {
                 <option value="" disabled>Välj i listan</option>
             }
-            
+
             @foreach (var AdType in adTypeOptions)
             {
                 if (selectedAdType == AdType)
@@ -134,7 +134,7 @@
 
 
 @* Cards *@
-@if(Model.Horses.Count == 0)
+@if (Model.Horses.Count == 0)
 {
     <p>Inga annonser hittades</p>
 }
@@ -156,25 +156,26 @@
 
     <div class="card">
         <a asp-action="Details" asp-route-id="@horse.Id">
-        @if (!string.IsNullOrEmpty(horse.ImagePath))
-        {
-            <img src="@horse.ImagePath" alt="Hästbild" style="max-width: 100px; height: auto;" />
-        }
-        else
-        {
-            <img src="images/horses/website-images/outline.svg" style="max-width: 100px; height: auto;" />
-        }
-        <div class="card-info">
-            <h2>@horse.Title</h2>
-            <p>@horse.Gender  @horseAge år  @horse.AdType</p>
-            <p>
-            <p>@(horse.Discipline != null ? horse.Discipline.ToString() : "") @(string.IsNullOrEmpty(horse.Breed) ? "" : horse.Breed)</p>
-            <p>@saleText</p>
-            <p>@horse.Price kr</p>
-        </div>
+            @if (!string.IsNullOrEmpty(horse.ImagePath))
+            {
+                <img src="@horse.ImagePath" alt="Hästbild" style="max-width: 100px; height: auto;" />
+            }
+            else
+            {
+                <img src="images/horses/website-images/outline.svg" style="max-width: 100px; height: auto;" />
+            }
+            <div class="card-info">
+                <h2>@horse.Title</h2>
+                <p>@horse.Gender @horseAge år @horse.AdType</p>
+                <p>@(horse.Discipline != null ? horse.Discipline : "")</p>
+                <p>@(horse.Breed != null ? horse.Breed : "")</p>
+                <p>@(horse.Height != null ? horse.Height : "") cm</p>
+                <p>@saleText</p>
+                <p>@horse.Price kr</p>
+            </div>
         </a>
         <div class="controls">
-        @if (horse.UserId == loggedInUserId)
+            @if (horse.UserId == loggedInUserId)
             {
                 <a asp-action="Edit" asp-route-id="@horse.Id">Edit</a>
                 <a asp-action="Delete" asp-route-id="@horse.Id">Delete</a>

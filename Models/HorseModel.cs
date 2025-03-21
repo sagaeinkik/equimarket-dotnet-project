@@ -36,7 +36,7 @@ public class HorseModel
     public string? Breed { get; set; }
 
     //Mankhöjd
-    [Display(Name = "Mankhöjd (cm)")]
+    [Display(Name = "Mankhöjd")]
     public int? Height { get; set; }
 
     //Annonstyp
