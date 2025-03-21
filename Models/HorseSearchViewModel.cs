@@ -7,6 +7,8 @@ public class HorseSearchViewModel
     public int? MaxAge { get; set; }
     public GenderType? Gender { get; set; }
     public string? Breed { get; set; }
+    public int? MinHeight { get; set; }
+    public int? MaxHeight { get; set; }
     public AdType? AdType { get; set; }
     public string? Discipline { get; set; }
     public int? MinPrice { get; set; }

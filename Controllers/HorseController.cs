@@ -70,6 +70,18 @@ namespace EquiMarket.Controllers
                 query = query.Where(h => h.Breed!.Contains(model.Breed));
             }
 
+            //Minhöjd
+            if (model.MinHeight.HasValue)
+            {
+                query = query.Where(h => h.Height >= model.MinHeight.Value);
+            }
+
+            //Maxhöjd
+            if (model.MaxHeight.HasValue)
+            {
+                query = query.Where(h => h.Height <= model.MaxHeight.Value);
+            }
+
             //Köpes eller säljes
             if (model.AdType.HasValue)
             {
@@ -189,6 +201,7 @@ namespace EquiMarket.Controllers
                     BirthDate = model.BirthDate,
                     Gender = model.Gender,
                     Breed = model.Breed,
+                    Height = model.Height,
                     AdType = model.AdType,
                     Discipline = model.Discipline,
                     Dam = model.Dam,
@@ -256,6 +269,7 @@ namespace EquiMarket.Controllers
                 BirthDate = horse.BirthDate,
                 Gender = horse.Gender,
                 Breed = horse.Breed,
+                Height = horse.Height,
                 AdType = horse.AdType,
                 Discipline = horse.Discipline,
                 Dam = horse.Dam,
@@ -309,6 +323,7 @@ namespace EquiMarket.Controllers
                 horse.BirthDate = model.BirthDate;
                 horse.Gender = model.Gender;
                 horse.Breed = model.Breed;
+                horse.Height = model.Height;
                 horse.AdType = model.AdType;
                 horse.Discipline = model.Discipline;
                 horse.Dam = model.Dam;
@@ -432,9 +447,5 @@ namespace EquiMarket.Controllers
         {
             return _context.Horses.Any(e => e.Id == id);
         }
-    }
-
-    internal interface IHorseRepository
-    {
     }
 }

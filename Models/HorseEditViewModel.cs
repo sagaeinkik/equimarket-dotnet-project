@@ -35,6 +35,10 @@ public class HorseEditViewModel
     [Display(Name = "Ras")]
     public string? Breed { get; set; }
 
+    //Mankhöjd
+    [Display(Name = "Mankhöjd (cm)")]
+    public int? Height { get; set; }
+
     //Annonstyp
     [Required(ErrorMessage = "Du måste fylla i annonstyp")]
     [Display(Name = "Annonstyp")]

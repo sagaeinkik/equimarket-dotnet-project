@@ -72,6 +72,17 @@
     </div>
 
     <div class="form-group">
+        <label for="MinHeight">Lägsta mankhöjd (cm)</label>
+        <input type="number" name="MinHeight" id="MinHeight" value="@Model.SearchModel.MinHeight">
+    </div>
+
+    <div class="form-group">
+        <label for="MaxHeight">Högsta mankhöjd (cm)</label>
+        <input type="number" name="MaxHeight" id="MaxHeight" value="@Model.SearchModel.MaxHeight">
+    </div>
+
+    <div class="form-group">
+        <label for="AdType">Annonstyp</label>
         @{ 
             //Val i enum
             var adTypeOptions = new List<string> { "Säljes", "Köpes" };

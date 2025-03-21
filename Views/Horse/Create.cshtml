@@ -32,6 +32,12 @@
         <span asp-validation-for="Breed" class="error"></span>
     </div>
     <div class="form-group">
+        <label asp-for="Height"></label>
+        <input asp-for="Height" />
+        <span asp-validation-for="Height"></span>
+    </div>
+
+    <div class="form-group">
         <label asp-for="AdType"></label>
         <select asp-for="AdType" asp-items="Html.GetEnumSelectList<AdType>()">
         </select>
