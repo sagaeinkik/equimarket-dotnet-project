@@ -1,0 +1,23 @@
+$dark: #222025;
+$mediumdark: #6d6467;
+$mediumlight: #aba29c;
+$light: #dad3c9;
+
+//Fonts
+$accent: Tomorrow, Arial, Helvetica, sans-serif;
+$bread: Telex, Arial, Helvetica, sans-serif;
+
+//Mixins
+@mixin flex($direction: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin transition($duration: 0.5s) {
+    transition: ease $duration;
+    -moz-transition: ease $duration;
+    -webkit-transition: ease $duration;
+    -o-transition: ease $duration;
+}

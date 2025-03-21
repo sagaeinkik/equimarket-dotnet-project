@@ -9,50 +9,51 @@
     var seller = ViewBag.Seller as ApplicationUser;
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="horse-detail content">
+    <h1>@ViewData["Title"]</h1>
 
-<div class="horse-detail">
+
     <h2>@Model.Title</h2>
-    
-    @if (currentUser?.Id == Model.UserId)
-    {
-        <div class="ad-ctrls"> 
-            <a asp-action="Edit" asp-route-id="@Model.Id">Redigera annons</a>
-            <a asp-action="Delete" asp-route-id="@Model.Id">Radera annons</a>
-        </div>
-    }
+
     @if (Model.ImagePath != null)
     {
         <img src="@Model.ImagePath" alt="@Model.Name" />
     }
     else
     {
-        <img src="/images/horses/website-images/outline.svg" alt="Defaulbild" style="width: 100px">
+        <img src="/images/horses/website-images/outline.svg" alt="Defaultbild" class="default-img">
     }
-    <p><span>@Html.DisplayNameFor(model => model.Name): </span>@Model.Name</p>
-    <p><span> @Html.DisplayNameFor(model => model.BirthDate): </span>@Model.BirthDate.ToString("yyyy-MM-dd") (@horseAge
-        år)</p>
-    <p><span>@Html.DisplayNameFor(model => model.Gender): </span>@Model.Gender</p>
-    <p><span>@Html.DisplayNameFor(model => model.Breed): </span>@(Model.Breed != null ? Model.Breed : "-")</p>
-    <p><span>@Html.DisplayNameFor(model => model.Height): </span>@(Model.Height != null ? Model.Height + " cm" : "Ej angivet")
-    </p>
-    <p><span>@Html.DisplayNameFor(model => model.AdType): </span>@Model.AdType</p>
-    <p><span>@Html.DisplayNameFor(model => model.Discipline): </span>@(Model.Discipline != null ? Model.Discipline :
-        "-")
-    </p>
-    <div class="pedigree">
-        <p><span>@Html.DisplayNameFor(model => model.Dam) </span>@(Model.Dam != null ? Model.Dam : "Okänd")</p>
-        <p><span>@Html.DisplayNameFor(model => model.Sire) </span>@(Model.Sire != null ? Model.Sire : "Okänd")</p>
-        <p><span>@Html.DisplayNameFor(model => model.DamSire) </span>@(Model.DamSire != null ? Model.DamSire : "Okänd")
+    <div class="horse-info">
+        <p><span>@Html.DisplayNameFor(model => model.Name): </span>@Model.Name</p>
+        <p><span>Född: </span>@Model.BirthDate.ToString("yyyy-MM-dd")
+            (@horseAge
+            år)</p>
+        <p><span>@Html.DisplayNameFor(model => model.Gender): </span>@Model.Gender</p>
+        <p><span>@Html.DisplayNameFor(model => model.Breed): </span>@(Model.Breed != null ? Model.Breed : "-")</p>
+        <p><span>@Html.DisplayNameFor(model => model.Height): </span>@(Model.Height != null ? Model.Height + " cm" :
+            "Ej angivet")
         </p>
-        <p><span>@Html.DisplayNameFor(model => model.GrandSire) </span>@(Model.GrandSire != null ? Model.GrandSire :
-                        "Okänd")</ p >
+        <p><span>@Html.DisplayNameFor(model => model.Discipline): </span>@(Model.Discipline != null ?
+                        Model.Discipline :
+                        "-")
+        </p>
+        <div class="pedigree">
+            <p>Stamtavla:</p>
+            <p><span>@Html.DisplayNameFor(model => model.Dam) </span>@(Model.Dam != null ? Model.Dam : "Okänd")</p>
+            <p><span>@Html.DisplayNameFor(model => model.Sire) </span>@(Model.Sire != null ? Model.Sire : "Okänd")</p>
+            <p><span>@Html.DisplayNameFor(model => model.DamSire) </span>@(Model.DamSire != null ? Model.DamSire :
+                                "Okänd")
+            </p>
+            <p><span>@Html.DisplayNameFor(model => model.GrandSire) </span>@(Model.GrandSire != null ? Model.GrandSire :
+                                "Okänd")</ p >
+        </div>
+        <p><span>@Html.DisplayNameFor(model => model.AdType): </span><span class="ad-type">@Model.AdType</span></p>
     </div>
     <section>
         <h3>@Html.DisplayNameFor(model => model.Content)</h3>
         <p>@Model.Content</p>
+        <p class="price"><span>@Model.Price kr</span></p>
     </section>
-    <p class="price"><span>@Model.Price</span></p>
 
     @* Kontaktuppgifter (användare) *@
     <div class="contact-info">
@@ -60,7 +61,7 @@
         @if (seller != null)
         {
             <p><span>Säljare: </span>@seller.FirstName @seller.LastName</p>
-            <a href="mailto:@seller.Email">Kontakta säljaren</a>
+            <a href="mailto:@seller.Email" class="contact-link link">Kontakta säljaren</a>
         }
         else
         {
@@ -68,7 +69,14 @@
         }
     </div>
 
+    @if (currentUser?.Id == Model.UserId)
+    {
+        <div class="ad-ctrls">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-link link">Redigera annons</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn-link link">Radera annons</a>
+        </div>
+    }
     <div>
-        <a asp-action="Index">Tillbaka till annonser</a>
+        <a asp-action="Index" class="back-link link">Tillbaka till annonser</a>
     </div>
 </div>

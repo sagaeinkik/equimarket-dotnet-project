@@ -158,11 +158,11 @@
         <a asp-action="Details" asp-route-id="@horse.Id">
             @if (!string.IsNullOrEmpty(horse.ImagePath))
             {
-                <img src="@horse.ImagePath" alt="Hästbild" style="max-width: 100px; height: auto;" />
+                <img src="@horse.ImagePath" alt="Hästbild" />
             }
             else
             {
-                <img src="images/horses/website-images/outline.svg" style="max-width: 100px; height: auto;" />
+                <img src="images/horses/website-images/outline.svg" />
             }
             <div class="card-info">
                 <h2>@horse.Title</h2>
@@ -177,8 +177,8 @@
         <div class="controls">
             @if (horse.UserId == loggedInUserId)
             {
-                <a asp-action="Edit" asp-route-id="@horse.Id">Edit</a>
-                <a asp-action="Delete" asp-route-id="@horse.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@horse.Id" class="link">Edit</a>
+                <a asp-action="Delete" asp-route-id="@horse.Id" class="link">Delete</a>
             }
         </div>
     </div>

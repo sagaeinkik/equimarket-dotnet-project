@@ -1,0 +1,52 @@
+@use 'vars' as v;
+
+/*  DETALJSIDOR FÖR HÄSTANNONSER */
+.horse-detail {
+    h2 {
+        font-size: 1.7em;
+    }
+    //Info-card
+    .horse-info {
+        background-color: v.$mediumdark;
+        color: white;
+        padding: 1em;
+        border-radius: 5px;
+        margin-top: 1em;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1em;
+
+        //Namnen på fält
+        span {
+            font-weight: bold;
+        }
+
+        //ad-type
+        .ad-type {
+            background-color: v.$dark;
+        }
+    }
+    //Pris
+    .price {
+        font-size: 1.7em;
+    }
+
+    //Kontaktuppgifter
+    .contact-info {
+        background-color: white;
+        padding: 1em;
+        border-radius: 5px;
+        margin-bottom: 1em;
+
+        h3 {
+            margin-top: 0;
+        }
+    }
+
+    //Kontroller
+    .ad-ctrls {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+    }
+}

@@ -1,0 +1,271 @@
+@use 'vars' as v;
+
+/* ALLMÄNNA STILREGLER  */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: v.$light;
+    width: 100%;
+    max-width: 2800px;
+    margin: auto;
+    font-family: v.$bread;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+main {
+    padding: 1em;
+    min-height: 80dvh;
+}
+
+//Bilder max 100%
+img {
+    width: 100%;
+    display: block;
+}
+
+//Listor
+nav ul li {
+    list-style: none;
+}
+
+//Alla länkar
+a {
+    text-decoration: none;
+    color: black;
+    @include v.transition;
+}
+
+button {
+    @include v.transition;
+}
+
+.back-link,
+.contact-link {
+    text-decoration: 2px dotted underline;
+}
+
+//Alla knappar
+button,
+input[type='submit'] {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    font-size: 1em;
+    font-family: v.$accent;
+}
+
+//Rubriker
+h1,
+h2,
+h3 {
+    color: v.$dark;
+    margin-top: 1em;
+    font-family: v.$accent;
+    font-weight: 400;
+}
+
+p {
+    margin-bottom: 0.5em;
+}
+
+//Formulär osv
+form {
+    label {
+        display: block;
+        margin-left: 1em;
+    }
+    input:not([type='submit']),
+    textarea,
+    select {
+        width: 100%;
+        font-size: 1em;
+        font-family: v.$accent;
+        padding: 0.5em 1em;
+        margin-bottom: 1em;
+
+        border: none;
+        &:focus {
+            outline: 2px solid v.$mediumdark;
+        }
+    }
+
+    //Submitknapp
+    input[type='submit'] {
+        background-color: v.$dark;
+        color: white;
+        padding: 0.5em 1.2em;
+        font-size: 1.2em;
+        margin-top: 1em;
+    }
+}
+
+//Specifika knappar
+.btn-link {
+    background-color: v.$dark;
+    padding: 1em 1.7em;
+    display: block;
+    width: fit-content;
+    color: white;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: v.$mediumdark;
+    }
+}
+
+/* LAYOUTREGLER */
+
+//Navigering
+header {
+    width: 100%;
+    background-color: v.$dark;
+
+    //Maxbredd för allt i headern
+    .header-content-wrapper {
+        width: 100%;
+        max-width: 1700px;
+        margin: auto;
+        padding: 1em 2em;
+        font-family: v.$accent;
+        //Flex för båda varianter
+        display: flex;
+        justify-content: space-between;
+    }
+    a,
+    button {
+        color: white;
+        padding: 0.8em 1.2em;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: v.$mediumdark;
+        }
+    }
+
+    //Logga
+    .logo {
+        font-size: 2em;
+        padding: 0;
+        position: relative;
+        bottom: 0.2em;
+
+        img {
+            display: inline;
+            width: 1.5em;
+            position: relative;
+            top: 0.4em;
+        }
+
+        &:hover {
+            background-color: v.$dark;
+        }
+    }
+
+    //Desktopmeny
+    nav.desktop {
+        width: 60%;
+        place-self: center;
+        ul {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            gap: 4em;
+        }
+    }
+
+    //Mobilmeny
+    .mobile {
+        display: none;
+        //Hamburgerknapp
+        button.burger {
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+
+            //Hamburgerstreck
+            span {
+                display: block;
+                margin: 0.3em;
+                width: 2em;
+                height: 3px;
+                background-color: white;
+                @include v.transition;
+            }
+
+            //Aktiv
+            &.active {
+                span:first-child {
+                    transform: translateY(7.7px) rotate(405deg);
+                }
+                span:nth-child(2) {
+                    opacity: 0;
+                }
+                span:last-child {
+                    transform: translateY(-7.7px) rotate(-405deg);
+                }
+            }
+
+            //Hovereffekter
+            &:hover {
+                background-color: v.$dark;
+
+                span {
+                    background-color: v.$mediumlight;
+                }
+            }
+        }
+
+        //Själva menyn
+        nav.mobile-nav {
+            background-color: v.$dark;
+            position: absolute;
+            right: 0;
+            top: -1000px;
+            @include v.transition;
+
+            ul {
+                width: 60dvw;
+                height: 60dvh;
+                min-height: 400px;
+                display: flex;
+                gap: 2em;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            &.active {
+                top: 0;
+            }
+        }
+    }
+}
+
+//Sidinnehåll som ej ska ha full bredd
+.content {
+    width: 100%;
+    max-width: 55em;
+    margin: auto;
+}
+
+//Footer
+footer {
+    background-color: v.$dark;
+    color: white;
+    padding: 2em 1em;
+    text-align: center;
+    font-family: v.$accent;
+    font-size: 0.8em;
+}
+
+//Default-bild
+.default-img {
+    max-width: 10em;
+}

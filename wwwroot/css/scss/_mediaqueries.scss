@@ -1,0 +1,41 @@
+@use 'vars' as v;
+
+//Media queries för navigering
+@media (max-width: 840px) {
+    header .logo {
+        font-size: 1.6em;
+    }
+    header nav.desktop ul {
+        gap: 1em;
+    }
+}
+
+@media (max-width: 680px) {
+    //Byt från desktop-meny till mobilmeny
+    header nav.desktop {
+        display: none;
+    }
+    header .mobile {
+        display: block;
+    }
+
+    //Minska herobildens borderradius
+    .hero-img img {
+        border-radius: 20px;
+    }
+
+    //Gör om i frontpage-horses
+    .frontpage-horses {
+        gap: 1em;
+
+        .fp-horse-card {
+            flex-basis: 13em;
+            position: static;
+        }
+
+        //Minska gap i ad-flex
+        .ad-flex {
+            gap: 0.5em;
+        }
+    }
+}
