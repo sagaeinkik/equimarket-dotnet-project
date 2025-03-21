@@ -1,123 +1,173 @@
-@model IEnumerable<EquiMarket.Models.HorseModel>
+@model (HorseSearchViewModel SearchModel, List<HorseModel> Horses)
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Annonser";
+    //ID på användaren
+    var loggedInUserId = UserManager.GetUserId(User);
+
+
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
+<a asp-action="Create">Skapa annons</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Breed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discipline)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sire)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DamSire)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GrandSire)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BirthDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Breed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AdType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Discipline)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Dam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sire)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DamSire)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GrandSire)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-                <td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImagePath))
-                    {
-                        <img src="@item.ImagePath" alt="Hästbild" style="max-width: 100px; height: auto;" />
-                    }
-                    else
-                    {
-                        <span>Ingen bild</span>
-                    }
-                </td>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+@* Filtreringsformulär *@
+<form asp-controller="Horse" asp-action="Index" method="GET">
+    <h2>Filtrera sökning</h2>
+    <div class="form-group">
+        <label for="Title">Annonstitel</label>
+        <input type="text" name="Title" id="Title" value="@Model.SearchModel.Title">
+    </div>
+
+    <div class="form-group">
+        <label for="MinAge">Lägsta ålder</label>
+        <input type="number" name="MinAge" id="MinAge" value="@Model.SearchModel.MinAge" min="0">
+    </div>
+
+    <div class="form-group">
+        <label for="MaxAge">Högsta ålder</label>
+        <input type="number" name="MaxAge" id="MaxAge" value="@Model.SearchModel.MaxAge">
+    </div>
+
+    <div class="form-group">
+        @{ 
+            //Val i enum
+            var genderOptions = new List<string> { "Hingst", "Sto", "Valack" };
+            //Gör om till strings (enums lagras som integer i databas)
+            var selectedGender = Model.SearchModel.Gender?.ToString();
         }
-    </tbody>
-</table>
+        
+        <label for="Gender">Kön</label>
+        <select name="Gender" id="Gender">
+            @if (selectedGender == null)
+            {
+                //Man får inte ha @ i options-taggar. Extremt störigt gjort av Microsoft
+                <option value="" disabled selected>Välj i listan</option>
+            }
+            else
+            {
+                <option value="" disabled>Välj i listan</option>
+            }
+
+            @foreach (var gender in genderOptions)
+            {
+                if (selectedGender == gender)
+                {
+                    <option value="@gender" selected>@gender</option>
+                }
+                else
+                {
+                    <option value="@gender">@gender</option>
+                }
+            }
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <label for="Breed">Ras</label>
+        <input type="text" name="Breed" id="Breed" value="@Model.SearchModel.Breed">
+    </div>
+
+    <div class="form-group">
+        @{ 
+            //Val i enum
+            var adTypeOptions = new List<string> { "Säljes", "Köpes" };
+            //Gör om till strings (enums lagras som integer i databas)
+            var selectedAdType = Model.SearchModel.AdType?.ToString();
+        }
+        <select name="AdType" id="AdType">
+            @if (selectedAdType == null)
+            {
+                <option value="" disabled selected>Välj i listan</option>
+            }
+            else
+            {
+                <option value="" disabled>Välj i listan</option>
+            }
+            
+            @foreach (var AdType in adTypeOptions)
+            {
+                if (selectedAdType == AdType)
+                {
+                    <option value="@AdType" selected>@AdType</option>
+                }
+                else
+                {
+                    <option value="@AdType">@AdType</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Discipline">Inriktning</label>
+        <input type="text" name="Discipline" id="Discipline" value="@Model.SearchModel.Discipline">
+    </div>
+
+    <div class="form-group">
+        <label for="MinPrice">Lägsta pris</label>
+        <input type="number" name="MinPrice" id="MinPrice" value="@Model.SearchModel.MinPrice" min="0">
+    </div>
+
+    <div class="form-group">
+        <label for="MaxPrice">Högsta pris</label>
+        <input type="number" name="MaxPrice" id="MaxPrice" value="@Model.SearchModel.MaxPrice">
+    </div>
+
+    <input type="submit" value="Sök">
+    <a href="/ads">Nollställ filter</a>
+</form>
+
+
+@* Cards *@
+@if(Model.Horses.Count == 0)
+{
+    <p>Inga annonser hittades</p>
+}
+@foreach (var horse in Model.Horses)
+{
+    //Räkna ut hästens ålder i år
+    var horseAge = DateTime.Now.Year - horse.BirthDate.Year;
+
+    string saleText;
+    //Säljtext avklippt
+    if (horse.Content!.Length > 100)
+    {
+        saleText = horse.Content.Substring(0, 100) + "...";
+    }
+    else
+    {
+        saleText = horse.Content;
+    }
+
+    <div class="card">
+        <a asp-action="Details" asp-route-id="@horse.Id">
+        @if (!string.IsNullOrEmpty(horse.ImagePath))
+        {
+            <img src="@horse.ImagePath" alt="Hästbild" style="max-width: 100px; height: auto;" />
+        }
+        else
+        {
+            <img src="images/horses/website-images/outline.svg" style="max-width: 100px; height: auto;" />
+        }
+        <div class="card-info">
+            <h2>@horse.Title</h2>
+            <p>@horse.Gender  @horseAge år  @horse.AdType</p>
+            <p>
+            <p>@(horse.Discipline != null ? horse.Discipline.ToString() : "") @(string.IsNullOrEmpty(horse.Breed) ? "" : horse.Breed)</p>
+            <p>@saleText</p>
+            <p>@horse.Price kr</p>
+        </div>
+        </a>
+        <div class="controls">
+        @if (horse.UserId == loggedInUserId)
+            {
+                <a asp-action="Edit" asp-route-id="@horse.Id">Edit</a>
+                <a asp-action="Delete" asp-route-id="@horse.Id">Delete</a>
+            }
+        </div>
+    </div>
+}

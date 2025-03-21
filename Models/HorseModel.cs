@@ -7,6 +7,13 @@ public class HorseModel
 
     public int Id { get; set; }
 
+    //Användare
+    [Required(ErrorMessage = "Du måste vara inloggad för att skapa en annons.")]
+    [Display(Name = "Användare")]
+    public string? UserId { get; set; }
+
+    public ApplicationUser? User { get; set; }
+
     //Namn
     [Required(ErrorMessage = "Du måste fylla i hästens namn")]
     [StringLength(80, ErrorMessage = "Namnet måste vara mellan 2 och 80 tecken långt.", MinimumLength = 2)]
@@ -17,7 +24,7 @@ public class HorseModel
     [Required(ErrorMessage = "Du måste fylla i födelsedatum")]
     [DataType(DataType.Date)]
     [Display(Name = "Födelsedatum")]
-    public DateTime BirthDate { get; set; }
+    public DateTime BirthDate { get; set; } = DateTime.Now;
 
     //Kön
     [Required(ErrorMessage = "Du måste fylla i kön")]

@@ -1,7 +1,30 @@
-﻿@{
+﻿@model List<HorseModel>
+
+@{
     ViewData["Title"] = "Startsidan";
 }
 
-<div class="text-center">
+<div>
     <p>Startsidan för EquiMarket</p>
+    <h2>I blickfånget</h2>
+    @if (Model != null)
+    {
+        foreach (var horse in Model)
+        {
+            <div>
+                <p>@horse.Title</p>
+                <p>@horse.AdType</p>
+                @if (horse.ImagePath != null)
+                {
+                    <img src="@horse.ImagePath" alt="@horse.Title" />
+                }
+                else
+                {
+                    <img src="images/horses/website-images/outline.svg" alt="Hästbild" />
+                }
+                <p>@horse.Price</p>
+                <a asp-action="Details" asp-controller="Horse" asp-route-id="@horse.Id">Läs mer</a>
+            </div>
+        }
+    }
 </div>

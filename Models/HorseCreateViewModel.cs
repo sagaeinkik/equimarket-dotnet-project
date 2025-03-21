@@ -5,6 +5,11 @@ namespace EquiMarket.Models;
 public class HorseCreateViewModel
 {
 
+    //Användare
+    [Display(Name = "Användare")]
+    public string? UserId { get; set; }
+
+    public ApplicationUser? User { get; set; }
 
     //Namn
     [Required(ErrorMessage = "Du måste fylla i hästens namn")]

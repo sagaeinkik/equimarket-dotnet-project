@@ -7,25 +7,117 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EquiMarket.Data;
 using EquiMarket.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace EquiMarket.Controllers
 {
     public class HorseController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager; //För att koppla ihop med användare
 
 
-        public HorseController(ApplicationDbContext context)
+        public HorseController(
+            UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
 
         // GET: Alla annonser
         [Route("ads")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(HorseSearchViewModel model)
         {
-            return View(await _context.Horses.ToListAsync());
+            //Om null, skicka bara tom lista
+            if (model == null)
+            {
+                return View(new List<HorseModel>());
+            }
+
+            //Hämta alla annonser
+            var query = _context.Horses.AsQueryable();
+
+            //Filtrering på titel
+            if (!string.IsNullOrEmpty(model.Title))
+            {
+                query = query.Where(h => h.Title!.Contains(model.Title));
+            }
+
+            //Minimiålder
+            if (model.MinAge.HasValue)
+            {
+                query = query.Where(h => h.BirthDate <= DateTime.Today.AddYears(-model.MinAge.Value));
+            }
+
+            //Maxålder
+            if (model.MaxAge.HasValue)
+            {
+                query = query.Where(h => h.BirthDate >= DateTime.Today.AddYears(-model.MaxAge.Value));
+            }
+
+            //Kön
+            if (model.Gender.HasValue)
+            {
+                query = query.Where(h => h.Gender == model.Gender.Value);
+            }
+
+            //Ras
+            if (!string.IsNullOrEmpty(model.Breed))
+            {
+                query = query.Where(h => h.Breed!.Contains(model.Breed));
+            }
+
+            //Köpes eller säljes
+            if (model.AdType.HasValue)
+            {
+                query = query.Where(h => h.AdType == model.AdType.Value);
+            }
+
+            //Disciplin
+            if (!string.IsNullOrEmpty(model.Discipline))
+            {
+                query = query.Where(h => h.Discipline!.Contains(model.Discipline));
+            }
+
+            //Minpris
+            if (model.MinPrice.HasValue)
+            {
+                query = query.Where(h => h.Price >= model.MinPrice.Value);
+            }
+
+            //Maxpris
+            if (model.MaxPrice.HasValue)
+            {
+                query = query.Where(h => h.Price <= model.MaxPrice.Value);
+            }
+
+            var horses = await query.ToListAsync();
+            var viewModel = (SearchModel: model, Horses: horses);
+            return View(viewModel);
+        }
+
+
+
+
+        //Användarens annonser
+        [Authorize]
+        [Route("ads/my-ads")]
+        public async Task<IActionResult> MyHorses()
+        {
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var myAds = await _context.Horses
+                .Where(h => h.UserId == userId)
+                .ToListAsync();
+
+            return View("UserAds", myAds);
         }
 
         // GET: Enskild annons
@@ -47,24 +139,52 @@ namespace EquiMarket.Controllers
             return View(horseModel);
         }
 
+        [Authorize]
         // GET: Horse/Create
         [Route("add-new")]
         public IActionResult Create()
         {
-            return View();
+            //Hitta användarens id
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            //Skapa ny instans och skicka med ID till vyn
+            var model = new HorseCreateViewModel
+            {
+                UserId = userId,
+                BirthDate = DateTime.Today
+            };
+
+            return View(model);
         }
 
         // POST: Lägg till annons
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add-new")]
+        [Authorize]
         public async Task<IActionResult> Create(HorseCreateViewModel model)
         {
+            //Hämta användarens ID
+            var userId = _userManager.GetUserId(User);
+
+            //Kolla så ID från formuläret stämmer med inloggad användare
+            if (model.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
+            //Validering har gått bra
             if (ModelState.IsValid)
             {
-                // Skapa en ny HorseModel från ViewModel
+
+                //Skapa ny hästmodell av inkommande data
                 var horse = new HorseModel
                 {
+                    UserId = userId,
                     Name = model.Name,
                     BirthDate = model.BirthDate,
                     Gender = model.Gender,
@@ -80,42 +200,53 @@ namespace EquiMarket.Controllers
                     Price = model.Price
                 };
 
-                // Hantera bilduppladdning om en bild har laddats upp
+                //Kolla om bild har laddats upp
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    // Skapa ett unikt filnamn
+                    //Skapa nytt filnamn
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageFile.FileName);
 
-                    // Definiera sökvägen
+                    //Skapa sökväg
                     string filePath = Path.Combine("wwwroot/images/horses", fileName);
 
-                    // Spara filen
+                    //Spara filen
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await model.ImageFile.CopyToAsync(stream);
                     }
 
-                    // Spara sökvägen i databasen (relativ sökväg)
+                    //Spara sökvägen 
                     horse.ImagePath = "/images/horses/" + fileName;
                 }
 
+                //Lägg till häst i databas
                 _context.Horses.Add(horse);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
+            //Stanna kvar på vyn annars
             return View(model);
         }
 
 
         // GET: Horse/Edit/{id}
         [Route("edit/{id}")]
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
             var horse = await _context.Horses.FindAsync(id);
             if (horse == null)
             {
                 return NotFound();
+            }
+
+            //Kolla inloggad användare
+            var userId = _userManager.GetUserId(User);
+            //Om det inte är samma som är inloggad får hen inte ändra
+            if (horse.UserId != userId)
+            {
+                return Forbid();
             }
 
             var viewModel = new HorseEditViewModel
@@ -144,22 +275,31 @@ namespace EquiMarket.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("edit/{id}")]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, HorseEditViewModel model)
         {
             if (id != model.Id)
             {
                 return NotFound();
             }
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
+            //Hitta häst att redigera
             var horse = await _context.Horses.FindAsync(id);
             if (horse == null)
             {
                 return NotFound();
+            }
+
+            //Kolla användare
+            var userId = _userManager.GetUserId(User);
+            if (horse.UserId != userId)
+            {
+                return Forbid();
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
             }
 
             try
@@ -235,6 +375,7 @@ namespace EquiMarket.Controllers
 
         // GET: annons för radering
         [Route("delete/{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -242,27 +383,46 @@ namespace EquiMarket.Controllers
                 return NotFound();
             }
 
-            var horseModel = await _context.Horses
+            var horse = await _context.Horses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (horseModel == null)
+            if (horse == null)
             {
                 return NotFound();
             }
 
-            return View(horseModel);
+            //Användare
+            var userId = _userManager.GetUserId(User);
+            if (horse.UserId != userId)
+            {
+                return Forbid();
+            }
+
+            return View(horse);
         }
 
         //  Radera annons
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Route("delete/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var horseModel = await _context.Horses.FindAsync(id);
-            if (horseModel != null)
+            var horse = await _context.Horses.FindAsync(id);
+
+            if (horse == null)
             {
-                _context.Horses.Remove(horseModel);
+                return NotFound();
             }
+
+            //Användare
+            var userId = _userManager.GetUserId(User);
+            if (horse.UserId != userId)
+            {
+                return Forbid();
+            }
+
+            //Spara
+            _context.Horses.Remove(horse);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -272,5 +432,9 @@ namespace EquiMarket.Controllers
         {
             return _context.Horses.Any(e => e.Id == id);
         }
+    }
+
+    internal interface IHorseRepository
+    {
     }
 }

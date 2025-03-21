@@ -1,0 +1,23 @@
+@model List<EquiMarket.Models.HorseModel>
+
+@{
+    ViewData["Title"] = "Mina annonser";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!Model.Any())
+{
+    <p>Du har inga annonser ännu.</p>
+}
+else
+{
+    <ul>
+        @foreach (var horse in Model)
+        {
+            <li>
+                <a asp-action="Details" asp-route-id="@horse.Id">@horse.Title</a> - @horse.Price kr
+            </li>
+        }
+    </ul>
+}

@@ -8,6 +8,12 @@ public class HorseEditViewModel
     //ID
     public int Id { get; set; }
 
+    //Användare
+    [Display(Name = "Användare")]
+    public string? UserId { get; set; }
+
+    public ApplicationUser? User { get; set; }
+
     //Namn
     [Required(ErrorMessage = "Du måste fylla i hästens namn")]
     [StringLength(80, ErrorMessage = "Namnet måste vara mellan 2 och 80 tecken långt.", MinimumLength = 2)]
