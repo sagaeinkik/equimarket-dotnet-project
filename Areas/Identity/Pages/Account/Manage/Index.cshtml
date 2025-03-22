@@ -11,19 +11,20 @@
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="profile">
     <h3>@ViewData["Title"]</h3>
-@* Inloggad som *@
-@{
-    if (user != null)
-    {
+    @* Inloggad som *@
+    @{
+        if (user != null)
+        {
             <p>Inloggad som @user.FirstName @user.LastName</p>
             <p>Epost: @user.Email</p>
             <div class="controls">
                 <a id="email" asp-page="./Email" class="change-email">Ändra epost</a>
                 <a asp-page="./ChangePassword" class="change-password">Ändra lösenord</a>
             </div>
+        }
     }
-}
+</div>
 
 @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 }

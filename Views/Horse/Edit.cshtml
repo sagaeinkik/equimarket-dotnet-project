@@ -30,7 +30,7 @@
                 <label asp-for="Gender"></label>
                 <span asp-validation-for="Gender" class="error"></span>
                 <select asp-for="Gender" asp-items="Html.GetEnumSelectList<GenderType>()">
-                    <option value="" selected disabled>Välj i listan</option>
+                    <option value="" disabled>Välj i listan</option>
                 </select>
             </div>
         </div>

@@ -64,6 +64,16 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @* JavaScript hamburgermeny *@
+    <script>
+        const burger = document.querySelector('.burger');
+        const mobileNav = document.querySelector('.mobile-nav');
+
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+        });
+    </script>
 </body>
 
 </html>
@@ -71,14 +81,3 @@
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
-
-@* JavaScript hamburgermeny *@
-<script>
-    const burger = document.querySelector('.burger');
-    const mobileNav = document.querySelector('.mobile-nav');
-
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('active');
-        mobileNav.classList.toggle('active');
-    });
-</script>

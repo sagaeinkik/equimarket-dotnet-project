@@ -47,13 +47,14 @@
                                 "Okänd")
             </p>
             <p><span>@Html.DisplayNameFor(model => model.GrandSire) </span>@(Model.GrandSire != null ? Model.GrandSire :
-                                "Okänd")</ p >
+                                "Okänd")
+            </p>
         </div>
         <p><span>@Html.DisplayNameFor(model => model.AdType): </span><span class="ad-type">@Model.AdType</span></p>
     </div>
     <section class="ad-content">
         <h3>Om @Model.Name</h3>
-        <p class="sale-text">@Model.Content</p>
+        <p class="sale-text">@Html.Raw(Model.Content)</p>
         <p class="price"><span>@Model.Price kr</span></p>
     </section>
 

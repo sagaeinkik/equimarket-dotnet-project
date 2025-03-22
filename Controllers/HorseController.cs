@@ -114,6 +114,15 @@ namespace EquiMarket.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
+            // Ersätt radbrytningar i Content för alla hästar
+            foreach (var horse in horses)
+            {
+                if (horse.Content != null)
+                {
+                    horse.Content = horse.Content.Replace("&#xD;&#xA;", "<br>");
+                }
+            }
+
             var viewModel = new HorseListViewModel
             {
                 SearchModel = model,
@@ -138,6 +147,12 @@ namespace EquiMarket.Controllers
             if (horseModel == null)
             {
                 return NotFound();
+            }
+
+            // Ersätt radbrytningar i Content-fältet
+            if (horseModel.Content != null)
+            {
+                horseModel.Content = horseModel.Content.Replace("&#xD;&#xA;", "<br>");
             }
 
             // Hämta säljarens information
@@ -280,6 +295,13 @@ namespace EquiMarket.Controllers
                 Price = horse.Price
             };
 
+
+            //Gör om radbrytningar till html-tagg
+            if (viewModel.Content != null)
+            {
+                viewModel.Content = viewModel.Content.Replace("\r\n", "\n").Replace("\r", "\n");
+            }
+
             return View(viewModel);
         }
 
@@ -332,6 +354,7 @@ namespace EquiMarket.Controllers
                 horse.Title = model.Title;
                 horse.Content = model.Content;
                 horse.Price = model.Price;
+
 
                 // Hantera bilduppladdning
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
@@ -409,6 +432,12 @@ namespace EquiMarket.Controllers
             if (horse.UserId != userId)
             {
                 return Forbid();
+            }
+
+            // Ersätt radbrytningar i Content-fältet
+            if (horse.Content != null)
+            {
+                horse.Content = horse.Content.Replace("&#xD;&#xA;", "<br>");
             }
 
             return View(horse);

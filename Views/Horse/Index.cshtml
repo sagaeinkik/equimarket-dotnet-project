@@ -180,16 +180,15 @@
         {
             saleText = horse.Content;
         }
-
         <div class="horse-card card">
             <a asp-action="Details" asp-route-id="@horse.Id">
                 @if (!string.IsNullOrEmpty(horse.ImagePath))
                 {
-                    <img src="@horse.ImagePath" alt="Hästbild" />
+                    <img src="@horse.ImagePath" alt="@horse.Name" />
                 }
                 else
                 {
-                    <img src="images/horses/website-images/outline.svg" class="default-img" />
+                    <img src="images/horses/website-images/outline.svg" alt="default-bild" class="default-img" />
                 }
                 <div class="card-info">
                     <h2>@horse.Title</h2>
@@ -204,7 +203,7 @@
                         <p>@(horse.Breed != null ? horse.Breed : "")</p>
                         <p>@(horse.Height != null ? horse.Height + " cm" : "")</p>
                     </div>
-                    <p class="sale-text">@saleText</p>
+                    <p class="sale-text">@Html.Raw(saleText)</p>
                     <p class="ad-price">@horse.Price kr</p>
                 </div>
             </a>
