@@ -40,6 +40,13 @@
     }
 }
 
+@media (max-width: 655px) {
+    //Ta bort opacitetsändring på mina sidor-annonserna
+    .mp-horses .card img {
+        opacity: 1;
+    }
+}
+
 @media (max-width: 495px) {
     //Justera gap på filtreringsmenyn
     .filter-form .flex-group {

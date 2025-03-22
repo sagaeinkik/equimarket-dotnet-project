@@ -4,44 +4,55 @@
     ViewData["Title"] = "Skapa konto";
 }
 
-<h1>@ViewData["Title"]</h1>
+
+<div class="content">
+    <h1>@ViewData["Title"]</h1>
 
 
-<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
 
-    <div asp-validation-summary="ModelOnly" role="alert"></div>
-    <div>
-        <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="David" />
-        <label asp-for="Input.FirstName">Förnamn</label>
-        <span asp-validation-for="Input.FirstName"></span>
-    </div>
-    <div>
-        <input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="Larsson" />
-        <label asp-for="Input.LastName">Efternamn</label>
-        <span asp-validation-for="Input.LastName"></span>
-    </div>
+        <div asp-validation-summary="ModelOnly" role="alert"></div>
 
-    <div>
-        <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="namn@exempel.se" />
-        <label asp-for="Input.Email">Email</label>
-        <span asp-validation-for="Input.Email"></span>
-    </div>
-    <div>
-        <input asp-for="Input.Password" class="form-control" aria-required="true" placeholder="Lösenord" />
-        <label asp-for="Input.Password">Lösenord</label>
-        <span asp-validation-for="Input.Password"></span>
-    </div>
-    <div>
-        <input asp-for="Input.ConfirmPassword" class="form-control" aria-required="true" placeholder="Lösenord" />
-        <label asp-for="Input.ConfirmPassword">Bekräfta lösenord</label>
-        <span asp-validation-for="Input.ConfirmPassword"></span>
-    </div>
-    <button id="registerSubmit" type="submit">Registrera</button>
-</form>
-<p>Har du redan ett konto? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="link back-link">Logga
-        in</a></p>
+        <div class="flex-group">
+
+            <div class="form-group">
+                <label asp-for="Input.FirstName">Förnamn</label>
+                <span asp-validation-for="Input.FirstName"></span>
+                <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="David" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName">Efternamn</label>
+                <span asp-validation-for="Input.LastName"></span>
+                <input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="Larsson" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Email">Email</label>
+            <span asp-validation-for="Input.Email"></span>
+            <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="namn@exempel.se" />
+        </div>
+
+        <div class="flex-group">
+
+            <div class="form-group">
+                <label asp-for="Input.Password">Lösenord</label>
+                <span asp-validation-for="Input.Password"></span>
+                <input asp-for="Input.Password" class="form-control" aria-required="true" placeholder="Lösenord" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword">Bekräfta lösenord</label>
+                <span asp-validation-for="Input.ConfirmPassword"></span>
+                <input asp-for="Input.ConfirmPassword" class="form-control" aria-required="true"
+                    placeholder="Lösenord" />
+            </div>
+        </div>
+        <button id="registerSubmit" type="submit" class="btn-link">Registrera</button>
+    </form>
+
+    <p>Har du redan ett konto? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="link back-link">Logga
+            in</a></p>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

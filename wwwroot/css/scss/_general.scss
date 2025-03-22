@@ -127,9 +127,22 @@ form {
     }
 }
 
+.delete-btn {
+    background-color: rgb(163, 1, 1);
+
+    &:hover {
+        background-color: rgb(90, 0, 0);
+    }
+}
+
 //Errormeddelanden
 .error {
-    color: red;
+    color: rgb(213, 3, 3);
+}
+
+//Centrerad text
+.center {
+    text-align: center;
 }
 
 /* LAYOUTREGLER */
@@ -154,7 +167,7 @@ header {
     button {
         color: white;
         padding: 0.8em 1.2em;
-        border-radius: 5px;
+        border-radius: 3px;
 
         &:hover {
             background-color: v.$mediumdark;
@@ -295,11 +308,12 @@ footer {
     gap: 1em;
     flex-wrap: wrap;
     margin-bottom: 0.5em;
+    align-items: center;
 }
 
 //Annonstyp
 .ad-type {
-    background-color: v.$mediumlight;
+    background-color: v.$mediumdark;
     color: white;
     width: fit-content;
     padding: 0.2em 0.8em;

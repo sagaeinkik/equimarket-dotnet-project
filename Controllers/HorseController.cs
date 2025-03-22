@@ -29,7 +29,7 @@ namespace EquiMarket.Controllers
 
         // GET: Alla annonser
         [Route("ads")]
-        public async Task<IActionResult> Index(HorseSearchViewModel model, int pageNumber = 1, int pageSize = 3)
+        public async Task<IActionResult> Index(HorseSearchViewModel model, int pageNumber = 1, int pageSize = 10)
         {
             //Om null, skicka bara tom lista
             if (model == null)
@@ -122,27 +122,6 @@ namespace EquiMarket.Controllers
                 TotalPages = (int)Math.Ceiling(totalHorses / (double)pageSize)
             };
             return View(viewModel);
-        }
-
-
-
-
-        //Användarens annonser
-        [Authorize]
-        [Route("ads/my-ads")]
-        public async Task<IActionResult> MyHorses()
-        {
-            var userId = _userManager.GetUserId(User);
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
-
-            var myAds = await _context.Horses
-                .Where(h => h.UserId == userId)
-                .ToListAsync();
-
-            return View("UserAds", myAds);
         }
 
         // GET: Enskild annons

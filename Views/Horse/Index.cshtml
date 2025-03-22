@@ -212,7 +212,7 @@
                 @if (horse.UserId == loggedInUserId)
                 {
                     <a asp-action="Edit" asp-route-id="@horse.Id" class="btn-link">Ändra</a>
-                    <a asp-action="Delete" asp-route-id="@horse.Id" class="btn-link">Radera</a>
+                    <a asp-action="Delete" asp-route-id="@horse.Id" class="btn-link delete-btn">Radera</a>
                 }
             </div>
         </div>

@@ -8,17 +8,19 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
+<div class="profile">
+    <h3>@ViewData["Title"]</h3>
 @* Inloggad som *@
 @{
     if (user != null)
     {
             <p>Inloggad som @user.FirstName @user.LastName</p>
             <p>Epost: @user.Email</p>
-            <a id="email" asp-page="./Email" class="back-link">Ändra epost</a>
-            <a asp-page="./ChangePassword" class="back-link">Ändra lösenord</a>
+            <div class="controls">
+                <a id="email" asp-page="./Email" class="change-email">Ändra epost</a>
+                <a asp-page="./ChangePassword" class="change-password">Ändra lösenord</a>
+            </div>
     }
 }
 

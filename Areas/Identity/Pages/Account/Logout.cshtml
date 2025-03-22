@@ -4,7 +4,9 @@
     ViewData["Title"] = "Logga ut";
 }
 
-<header>
+
+<div class="content">
+
     <h1>@ViewData["Title"]</h1>
     @{
         if (User.Identity?.IsAuthenticated ?? false)
@@ -19,4 +21,5 @@
             <p>Du har blivit utloggad!</p>
         }
     }
-</header>
+
+</div>

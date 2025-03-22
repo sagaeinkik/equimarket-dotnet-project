@@ -1,0 +1,54 @@
+@page
+@model UserAdsModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Mina annonser";
+    //ID på användaren
+    var loggedInUserId = UserManager.GetUserId(User);
+}
+
+
+<h2 class="center">@ViewData["Title"]</h2>
+
+@* Skriv ut annonser *@
+@if (!Model.Horses!.Any())
+{
+    <p>Du har inga annonser ännu.</p>
+}
+else
+{
+    <div class="mp-horses">
+        @foreach (var horse in Model.Horses!)
+        {
+            var horseAge = DateTime.Now.Year - horse.BirthDate.Year;
+            <div class="mp-horse-card card">
+                <a asp-action="Details" asp-controller="Horse" asp-route-id="@horse.Id">
+                    <p class="ad-title">@horse.Title</p>
+                    <div class="ad-flex">
+                        <p class="ad-type">@horse.AdType</p>
+                        <p class="ad-breed">@(horse.Breed != null ? horse.Breed : "")</p>
+                        <p class="ad-age">@horseAge år</p>
+                    </div>
+                    @if (horse.ImagePath != null)
+                    {
+                        <img src="@horse.ImagePath" alt="@horse.Title" />
+                    }
+                    else
+                    {
+                        <img src="~/images/horses/website-images/outline.svg" alt="Hästbild" class="default-img" />
+                    }
+                    <p class="ad-price">@horse.Price kr</p>
+                </a>
+                <div class="controls">
+                    @if (horse.UserId == loggedInUserId)
+                    {
+                        <a asp-action="Edit" asp-route-id="@horse.Id" class="btn-link">Ändra</a>
+                        <a asp-action="Delete" asp-route-id="@horse.Id" class="btn-link delete-btn">Radera</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

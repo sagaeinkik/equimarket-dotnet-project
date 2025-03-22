@@ -11,11 +11,12 @@
 <form id="email-form" method="post">
     <div asp-validation-summary="All" role="alert"></div>
     <div>
-        <input asp-for="Input.NewEmail" aria-required="true" placeholder="Ange ny email" />
         <label asp-for="Input.NewEmail" class="form-label"></label>
-        <span asp-validation-for="Input.NewEmail"></span>
+        <span asp-validation-for="Input.NewEmail" class="error"></span>
+        <input asp-for="Input.NewEmail" aria-required="true" placeholder="Ange ny email" />
     </div>
-    <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail">Uppdatera epost</button>
+    <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn-link">Uppdatera
+        epost</button>
 </form>
 
 @section Scripts {

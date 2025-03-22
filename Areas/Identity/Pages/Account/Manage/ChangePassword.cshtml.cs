@@ -53,7 +53,7 @@ namespace EquiMarket.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Du måste ange ditt gamla lösenord.")]
             [DataType(DataType.Password)]
             [Display(Name = "Gamla lösenordet")]
             public string OldPassword { get; set; }
@@ -62,7 +62,7 @@ namespace EquiMarket.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Du måste ange ditt nya lösenord.")]
             [StringLength(100, ErrorMessage = "{0} måste vara minst {2} och max {1} tecken långt.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Nya lösenordet")]

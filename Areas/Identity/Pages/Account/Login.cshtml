@@ -5,33 +5,35 @@
     ViewData["Title"] = "Logga in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<form id="account" method="post">
-    <div asp-validation-summary="ModelOnly" role="alert"></div>
-    <div>
-        <input asp-for="Input.Email" aria-required="true" placeholder="name@example.com" />
-        <label asp-for="Input.Email">Email</label>
-        <span asp-validation-for="Input.Email"></span>
-    </div>
-    <div>
-        <input asp-for="Input.Password" aria-required="true" placeholder="Lösenord" />
-        <label asp-for="Input.Password">Lösenord</label>
-        <span asp-validation-for="Input.Password"></span>
-    </div>
-    <div>
-        <button id="login-submit" type="submit">Logga in</button>
-    </div>
-    <div>
-        <p>
-            Har du inget konto?
-            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="link back-link">Skapa nytt konto</a>
-        </p>
-    </div>
-</form>
-</section>
+<div class="content">
+
+    <h1 class="center">@ViewData["Title"]</h1>
+    <form id="account" method="post">
+        <div asp-validation-summary="ModelOnly" role="alert"></div>
+        <div class="form-group">
+            <label asp-for="Input.Email">Email</label>
+            <span asp-validation-for="Input.Email" class="error"></span>
+            <input asp-for="Input.Email" aria-required="true" placeholder="name@example.com" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Password">Lösenord</label>
+            <span asp-validation-for="Input.Password" class="error"></span>
+            <input asp-for="Input.Password" aria-required="true" placeholder="Lösenord" />
+        </div>
+        <div>
+            <button id="login-submit" type="submit" class="btn-link">Logga in</button>
+        </div>
+    </form>
+    <p>
+        Har du inget konto?
+        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="link back-link">Registrera dig
+            här</a>
+    </p>
+
 </div>
 
 
+</div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

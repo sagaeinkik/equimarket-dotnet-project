@@ -2,8 +2,13 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul>
-    <li><a id="profile" asp-page="./Index">Profil</a></li>
-    <li><a asp-controller="Horse" asp-action="MyHorses">Mina annonser</a></li>
-    <li><a id="personal-data" asp-page="./PersonalData">Persondata</a></li>
-</ul>
+
+<nav class="manage-nav">
+
+    <ul>
+        <li><a id="profile" asp-page="./Index">Profil</a></li>
+        <li><a asp-page="./UserAds">Mina annonser</a></li>
+        <li><a id="personal-data" asp-page="./PersonalData">Persondata</a></li>
+    </ul>
+
+</nav>

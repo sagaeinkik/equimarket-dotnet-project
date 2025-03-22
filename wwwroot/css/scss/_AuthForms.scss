@@ -1,0 +1,15 @@
+@use 'vars' as v;
+
+/* STILREGLER FÖR LOGIN/REGISTER + andra jobbiga sidor från /identity */
+
+//Login/registrerings-formulär
+#account,
+#registerForm {
+    margin: 2em 0;
+    border-radius: 5px;
+
+    #login-submit {
+        margin: 1em 0;
+        display: block;
+    }
+}
