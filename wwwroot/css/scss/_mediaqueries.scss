@@ -39,3 +39,24 @@
         }
     }
 }
+
+@media (max-width: 495px) {
+    //Justera gap på filtreringsmenyn
+    .filter-form .flex-group {
+        gap: 0.3em;
+    }
+
+    //Justera header
+    header .header-content-wrapper {
+        padding: 0.5em 1em;
+    }
+
+    header .logo {
+        font-size: 1.2em;
+    }
+
+    header a,
+    header button {
+        padding: 0.4em 0.6em;
+    }
+}

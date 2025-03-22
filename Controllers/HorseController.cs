@@ -29,7 +29,7 @@ namespace EquiMarket.Controllers
 
         // GET: Alla annonser
         [Route("ads")]
-        public async Task<IActionResult> Index(HorseSearchViewModel model, int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(HorseSearchViewModel model, int pageNumber = 1, int pageSize = 3)
         {
             //Om null, skicka bara tom lista
             if (model == null)
@@ -297,6 +297,7 @@ namespace EquiMarket.Controllers
                 GrandSire = horse.GrandSire,
                 Title = horse.Title,
                 Content = horse.Content,
+                HasImage = !string.IsNullOrEmpty(horse.ImagePath),
                 Price = horse.Price
             };
 

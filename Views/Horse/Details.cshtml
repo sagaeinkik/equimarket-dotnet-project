@@ -49,9 +49,9 @@
         </div>
         <p><span>@Html.DisplayNameFor(model => model.AdType): </span><span class="ad-type">@Model.AdType</span></p>
     </div>
-    <section>
-        <h3>@Html.DisplayNameFor(model => model.Content)</h3>
-        <p>@Model.Content</p>
+    <section class="ad-content">
+        <h3>Om @Model.Name</h3>
+        <p class="sale-text">@Model.Content</p>
         <p class="price"><span>@Model.Price kr</span></p>
     </section>
 
@@ -61,7 +61,7 @@
         @if (seller != null)
         {
             <p><span>Säljare: </span>@seller.FirstName @seller.LastName</p>
-            <a href="mailto:@seller.Email" class="contact-link link">Kontakta säljaren</a>
+            <a href="mailto:@seller.Email" class="btn-link link">Kontakta säljaren</a>
         }
         else
         {

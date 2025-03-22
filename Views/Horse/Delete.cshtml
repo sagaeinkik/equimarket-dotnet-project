@@ -1,14 +1,21 @@
+@using Microsoft.AspNetCore.Identity
 @model EquiMarket.Models.HorseModel
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Ta bort annons";
     var horseAge = DateTime.Now.Year - Model.BirthDate.Year;
+    var currentUser = UserManager.GetUserAsync(User).Result;
+    var seller = ViewBag.Seller as ApplicationUser;
 }
 
-<h1>@ViewData["Title"]</h1>
 
-<h2>Är du säker på att du vill radera denna annons?</h2>
-<div class="horse-detail">
+<div class="horse-detail content">
+
+
+    <h1>@ViewData["Title"]</h1>
+
+    <p class="warning">Är du helt säker på att du vill radera denna annons?</p>
     <h2>@Model.Title</h2>
     @if (Model.ImagePath != null)
     {
@@ -18,34 +25,45 @@
     {
         <img src="/images/horses/website-images/outline.svg" alt="Defaulbild" style="width: 100px">
     }
-    <p><span>@Html.DisplayNameFor(model => model.Name): </span>@Model.Name</p>
-    <p><span> @Html.DisplayNameFor(model => model.BirthDate): </span>@Model.BirthDate.ToString("yyyy-MM-dd") (@horseAge
-        år)</p>
-    <p><span>@Html.DisplayNameFor(model => model.Gender): </span>@Model.Gender</p>
-    <p><span>@Html.DisplayNameFor(model => model.Breed): </span>@(Model.Breed != null ? Model.Breed : "-")</p>
-    <p><span>@Html.DisplayNameFor(model => model.Height): </span>@(Model.Height != null ? Model.Height + " cm" : "Ej angivet")
-    </p>
-    <p><span>@Html.DisplayNameFor(model => model.AdType): </span>@Model.AdType</p>
-    <p><span>@Html.DisplayNameFor(model => model.Discipline): </span>@(Model.Discipline != null ? Model.Discipline :
-        "-")
-    </p>
-    <div class="pedigree">
-        <p><span>@Html.DisplayNameFor(model => model.Dam) </span>@(Model.Dam != null ? Model.Dam : "Okänd")</p>
-        <p><span>@Html.DisplayNameFor(model => model.Sire) </span>@(Model.Sire != null ? Model.Sire : "Okänd")</p>
-        <p><span>@Html.DisplayNameFor(model => model.DamSire) </span>@(Model.DamSire != null ? Model.DamSire : "Okänd")
+    <div class="horse-info">
+        <p><span>@Html.DisplayNameFor(model => model.Name): </span>@Model.Name</p>
+        <p><span>Född: </span>@Model.BirthDate.ToString("yyyy-MM-dd")
+            (@horseAge
+            år)</p>
+        <p><span>@Html.DisplayNameFor(model => model.Gender): </span>@Model.Gender</p>
+        <p><span>@Html.DisplayNameFor(model => model.Breed): </span>@(Model.Breed != null ? Model.Breed : "-")</p>
+        <p><span>@Html.DisplayNameFor(model => model.Height): </span>@(Model.Height != null ? Model.Height + " cm" :
+            "Ej angivet")
         </p>
-        <p><span>@Html.DisplayNameFor(model => model.GrandSire) </span>@(Model.GrandSire != null ? Model.GrandSire :
-                        "Okänd")</ p >
+        <p><span>@Html.DisplayNameFor(model => model.Discipline): </span>@(Model.Discipline != null ?
+                        Model.Discipline :
+                        "-")
+        </p>
+        <div class="pedigree">
+            <p>Stamtavla:</p>
+            <p><span>@Html.DisplayNameFor(model => model.Dam) </span>@(Model.Dam != null ? Model.Dam : "Okänd")</p>
+            <p><span>@Html.DisplayNameFor(model => model.Sire) </span>@(Model.Sire != null ? Model.Sire : "Okänd")</p>
+            <p><span>@Html.DisplayNameFor(model => model.DamSire) </span>@(Model.DamSire != null ? Model.DamSire :
+                                "Okänd")
+            </p>
+            <p><span>@Html.DisplayNameFor(model => model.GrandSire) </span>@(Model.GrandSire != null ? Model.GrandSire :
+                                "Okänd")</ p >
+        </div>
+        <p><span>@Html.DisplayNameFor(model => model.AdType): </span><span class="ad-type">@Model.AdType</span></p>
     </div>
-    <section>
-        <h3>@Html.DisplayNameFor(model => model.Content)</h3>
-        <p>@Model.Content</p>
+    <section class="ad-content">
+        <h3>Om @Model.Name</h3>
+        <p class="sale-text">@Model.Content</p>
+        <p class="price"><span>@Model.Price kr</span></p>
     </section>
-    <p class="price"><span>@Model.Price</span></p>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Radera" />
-        <a asp-action="Index" class="back-link link">Tillbaka till annonser</a>
-    </form>
+    @if (currentUser?.Id == Model.UserId)
+    {
+        <form asp-action="Delete" style="margin-top: 1em;">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Radera" />
+            <a asp-action="Index" class="back-link">Tillbaka till annonser</a>
+        </form>
+    }
+
 </div>

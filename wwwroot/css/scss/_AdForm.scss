@@ -1,0 +1,21 @@
+@use 'vars' as v;
+
+/* STYLING FÖR HORSE/CREATE OCH HORSE/EDIT */
+
+.ad-form {
+    h2 {
+        margin-left: 0.8em;
+        margin-bottom: 0.5em;
+        font-size: 1.3em;
+    }
+
+    //Säljtext
+    textarea {
+        min-height: 20em;
+    }
+
+    //Submit-knapp
+    input[type='submit'] {
+        margin: 1em 0;
+    }
+}

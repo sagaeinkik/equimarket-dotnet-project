@@ -1,0 +1,104 @@
+@use 'vars' as v;
+
+/* STYLING FÖR ANNONSER-SIDAN (Horse/Index) */
+
+//Filtrering
+.filter-form {
+    background-color: v.$mediumdark;
+    color: white;
+    padding: 1.5em;
+    margin: 1em 0;
+    border-radius: 5px;
+
+    h2 {
+        color: white;
+        margin-top: 0;
+    }
+
+    //Kontroller
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-top: 1em;
+
+        a {
+            display: block;
+
+            &:hover {
+                background-color: v.$mediumlight;
+                color: black;
+            }
+        }
+    }
+
+    //Formulärflex
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+
+        //Knapp
+        button {
+            color: white;
+            font-size: 1.2em;
+
+            //aktiv knapp
+            &.active {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    //Dold från start
+    .toggle-form.hidden {
+        display: none;
+    }
+}
+
+//Annonskort
+.horse-card {
+    margin: 1.5em 0;
+
+    //Justera ad-flex
+    .ad-flex {
+        margin-top: 1em;
+        gap: 2em;
+    }
+
+    .ad-type {
+        position: relative;
+        bottom: 0.2em;
+    }
+
+    .sale-text {
+        margin-top: 1em;
+    }
+
+    //Knappar
+    .controls {
+        margin-top: 1em;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+//Paginering
+.pagination {
+    width: fit-content;
+    margin: 2em auto;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+
+    //Nästa/föregående
+    .page-link {
+        background-color: v.$mediumlight;
+        padding: 0.3em 0.8em;
+        border-radius: 3px;
+        color: white;
+
+        &:hover {
+            background-color: v.$mediumdark;
+        }
+    }
+}

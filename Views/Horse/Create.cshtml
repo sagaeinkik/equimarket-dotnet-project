@@ -4,98 +4,127 @@
     ViewData["Title"] = "Skapa annons";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<form asp-action="Create" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="error"></div>
-    <input type="hidden" asp-for="UserId" />
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" />
-        <span asp-validation-for="Name" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="BirthDate"></label>
-        <input asp-for="BirthDate" />
-        <span asp-validation-for="BirthDate" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Gender"></label>
-        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<GenderType>()">
-            <option value="" selected disabled>Välj i listan</option>
-        </select>
-        <span asp-validation-for="Gender" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Breed"></label>
-        <input asp-for="Breed" />
-        <span asp-validation-for="Breed" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Height"></label>
-        <input asp-for="Height" />
-        <span asp-validation-for="Height"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="AdType"></label>
-        <select asp-for="AdType" asp-items="Html.GetEnumSelectList<AdType>()">
-        </select>
-        <span asp-validation-for="AdType" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Discipline"></label>
-        <input asp-for="Discipline" />
-        <span asp-validation-for="Discipline" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Dam"></label>
-        <input asp-for="Dam" />
-        <span asp-validation-for="Dam" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Sire"></label>
-        <input asp-for="Sire" />
-        <span asp-validation-for="Sire" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DamSire"></label>
-        <input asp-for="DamSire" />
-        <span asp-validation-for="DamSire" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="GrandSire"></label>
-        <input asp-for="GrandSire" />
-        <span asp-validation-for="GrandSire" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input asp-for="Title" />
-        <span asp-validation-for="Title" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Content"></label>
-        <textarea asp-for="Content"></textarea>
-        <span asp-validation-for="Content" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ImageFile"></label>
-        <input type="file" asp-for="ImageFile">
-        <span asp-validation-for="ImageFile" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Price"></label>
-        <input asp-for="Price" />
-        <span asp-validation-for="Price" class="error"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Skapa" />
-    </div>
-</form>
+<div class="content">
 
 
-<div>
-    <a asp-action="Index" class="back-link link">Tillbaka</a>
+    <h1>@ViewData["Title"]</h1>
+    <p>Fält markerade med * är obligatoriska.</p>
+
+    <form asp-action="Create" enctype="multipart/form-data" class="ad-form">
+        <div asp-validation-summary="ModelOnly" class="error"></div>
+        <input type="hidden" asp-for="UserId" />
+
+        <h2>Information om hästen</h2>
+        <div class="form-group">
+            <label asp-for="Name">Hästens namn*</label>
+            <span asp-validation-for="Name" class="error"></span>
+            <input asp-for="Name" />
+        </div>
+
+        <div class="flex-group">
+            <div class="form-group">
+                <label asp-for="BirthDate"></label>
+                <span asp-validation-for="BirthDate" class="error"></span>
+                <input asp-for="BirthDate" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender"></label>
+                <span asp-validation-for="Gender" class="error"></span>
+                <select asp-for="Gender" asp-items="Html.GetEnumSelectList<GenderType>()">
+                    <option value="" selected disabled>Välj i listan</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex-group">
+
+            <div class="form-group">
+                <label asp-for="Breed"></label>
+                <span asp-validation-for="Breed" class="error"></span>
+                <input asp-for="Breed" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Height"></label>
+                <span asp-validation-for="Height"></span>
+                <input asp-for="Height" />
+            </div>
+        </div>
+
+        <div class="flex-group">
+
+            <div class="form-group">
+                <label asp-for="AdType"></label>
+                <span asp-validation-for="AdType" class="error"></span>
+                <select asp-for="AdType" asp-items="Html.GetEnumSelectList<AdType>()">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discipline"></label>
+                <span asp-validation-for="Discipline" class="error"></span>
+                <input asp-for="Discipline" />
+            </div>
+        </div>
+
+        @* Stamtavla *@
+        <div class="flex-group">
+
+            <div class="form-group">
+                <label asp-for="Dam"></label>
+                <span asp-validation-for="Dam" class="error"></span>
+                <input asp-for="Dam" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Sire"></label>
+                <span asp-validation-for="Sire" class="error"></span>
+                <input asp-for="Sire" />
+            </div>
+        </div>
+        <div class="flex-group">
+
+            <div class="form-group">
+                <label asp-for="DamSire"></label>
+                <span asp-validation-for="DamSire" class="error"></span>
+                <input asp-for="DamSire" />
+            </div>
+            <div class="form-group">
+                <label asp-for="GrandSire"></label>
+                <span asp-validation-for="GrandSire" class="error"></span>
+                <input asp-for="GrandSire" />
+            </div>
+        </div>
+
+
+        <h2>Annons</h2>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <span asp-validation-for="Title" class="error"></span>
+            <input asp-for="Title" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Content"></label>
+            <span asp-validation-for="Content" class="error"></span>
+            <textarea asp-for="Content"></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="ImageFile"></label>
+            <span asp-validation-for="ImageFile" class="error"></span>
+            <input type="file" asp-for="ImageFile">
+        </div>
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <span asp-validation-for="Price" class="error"></span>
+            <input asp-for="Price" />
+        </div>
+        <input type="submit" value="Lägg till annons" />
+    </form>
+
+
+    <div>
+        <a asp-action="Index" class="back-link link">Tillbaka till annonser</a>
+    </div>
 </div>
 
 @section Scripts {

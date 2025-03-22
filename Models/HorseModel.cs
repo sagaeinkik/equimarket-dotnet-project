@@ -83,6 +83,7 @@ public class HorseModel
     //Pris
     [Display(Name = "Pris")]
     [Required(ErrorMessage = "Du måste fylla i pris.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Pris måste vara minst 1kr.")]
     public int Price { get; set; }
 
 

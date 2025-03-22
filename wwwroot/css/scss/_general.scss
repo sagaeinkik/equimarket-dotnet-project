@@ -78,21 +78,22 @@ p {
 //Formulär osv
 form {
     label {
-        display: block;
         margin-left: 1em;
     }
     input:not([type='submit']),
     textarea,
     select {
+        display: block;
         width: 100%;
         font-size: 1em;
         font-family: v.$accent;
         padding: 0.5em 1em;
         margin-bottom: 1em;
+        border-radius: 3px;
 
         border: none;
         &:focus {
-            outline: 2px solid v.$mediumdark;
+            outline: 2px solid v.$dark;
         }
     }
 
@@ -100,24 +101,35 @@ form {
     input[type='submit'] {
         background-color: v.$dark;
         color: white;
-        padding: 0.5em 1.2em;
-        font-size: 1.2em;
-        margin-top: 1em;
+        padding: 0.8em 1.4em;
+        font-size: 1em;
+        border-radius: 5px;
+        @include v.transition;
+
+        &:hover {
+            background-color: v.$mediumdark;
+        }
     }
 }
 
 //Specifika knappar
 .btn-link {
     background-color: v.$dark;
-    padding: 1em 1.7em;
+    padding: 0.6em 1.4em;
     display: block;
     width: fit-content;
     color: white;
     border-radius: 5px;
+    font-family: v.$accent;
 
     &:hover {
         background-color: v.$mediumdark;
     }
+}
+
+//Errormeddelanden
+.error {
+    color: red;
 }
 
 /* LAYOUTREGLER */
@@ -268,4 +280,47 @@ footer {
 //Default-bild
 .default-img {
     max-width: 10em;
+    margin: auto;
+}
+
+//Annonser
+.card {
+    background-color: white;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.ad-flex {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin-bottom: 0.5em;
+}
+
+//Annonstyp
+.ad-type {
+    background-color: v.$mediumlight;
+    color: white;
+    width: fit-content;
+    padding: 0.2em 0.8em;
+    border-radius: 20px;
+}
+
+.ad-price {
+    margin-top: 0.5em;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: v.$mediumdark;
+}
+
+//Formulär-flex
+.flex-group {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+
+    .form-group {
+        flex: 1;
+        flex-basis: 12.5em;
+    }
 }

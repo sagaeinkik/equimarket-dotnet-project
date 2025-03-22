@@ -10,190 +10,240 @@
 
 }
 
-<h1>@ViewData["Title"]</h1>
-<a asp-action="Create">Skapa annons</a>
+<div class="content">
 
-@* Filtreringsformulär *@
-<form asp-controller="Horse" asp-action="Index" method="GET">
-    <h2>Filtrera sökning</h2>
-    <div class="form-group">
-        <label for="Title">Annonstitel</label>
-        <input type="text" name="Title" id="Title" value="@Model.SearchModel.Title">
-    </div>
+    <h1>@ViewData["Title"]</h1>
+    <a asp-action="Create" class="btn-link">Skapa annons</a>
 
-    <div class="form-group">
-        <label for="MinAge">Lägsta ålder</label>
-        <input type="number" name="MinAge" id="MinAge" value="@Model.SearchModel.MinAge" min="0">
-    </div>
-
-    <div class="form-group">
-        <label for="MaxAge">Högsta ålder</label>
-        <input type="number" name="MaxAge" id="MaxAge" value="@Model.SearchModel.MaxAge">
-    </div>
-
-    <div class="form-group">
-        @{
-            //Val i enum
-            var genderOptions = new List<string> { "Hingst", "Sto", "Valack" };
-            //Gör om till strings (enums lagras som integer i databas)
-            var selectedGender = Model.SearchModel.Gender?.ToString();
-        }
-
-        <label for="Gender">Kön</label>
-        <select name="Gender" id="Gender">
-            @if (selectedGender == null)
-            {
-                //Man får inte ha @ i options-taggar. Extremt störigt gjort av Microsoft
-                <option value="" disabled selected>Välj i listan</option>
-            }
-            else
-            {
-                <option value="" disabled>Välj i listan</option>
-            }
-
-            @foreach (var gender in genderOptions)
-            {
-                if (selectedGender == gender)
-                {
-                    <option value="@gender" selected>@gender</option>
-                }
-                else
-                {
-                    <option value="@gender">@gender</option>
-                }
-            }
-        </select>
-    </div>
-
-
-    <div class="form-group">
-        <label for="Breed">Ras</label>
-        <input type="text" name="Breed" id="Breed" value="@Model.SearchModel.Breed">
-    </div>
-
-    <div class="form-group">
-        <label for="MinHeight">Lägsta mankhöjd (cm)</label>
-        <input type="number" name="MinHeight" id="MinHeight" value="@Model.SearchModel.MinHeight">
-    </div>
-
-    <div class="form-group">
-        <label for="MaxHeight">Högsta mankhöjd (cm)</label>
-        <input type="number" name="MaxHeight" id="MaxHeight" value="@Model.SearchModel.MaxHeight">
-    </div>
-
-    <div class="form-group">
-        <label for="AdType">Annonstyp</label>
-        @{
-            //Val i enum
-            var adTypeOptions = new List<string> { "Säljes", "Köpes" };
-            //Gör om till strings (enums lagras som integer i databas)
-            var selectedAdType = Model.SearchModel.AdType?.ToString();
-        }
-        <select name="AdType" id="AdType">
-            @if (selectedAdType == null)
-            {
-                <option value="" disabled selected>Välj i listan</option>
-            }
-            else
-            {
-                <option value="" disabled>Välj i listan</option>
-            }
-
-            @foreach (var AdType in adTypeOptions)
-            {
-                if (selectedAdType == AdType)
-                {
-                    <option value="@AdType" selected>@AdType</option>
-                }
-                else
-                {
-                    <option value="@AdType">@AdType</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="Discipline">Inriktning</label>
-        <input type="text" name="Discipline" id="Discipline" value="@Model.SearchModel.Discipline">
-    </div>
-
-    <div class="form-group">
-        <label for="MinPrice">Lägsta pris</label>
-        <input type="number" name="MinPrice" id="MinPrice" value="@Model.SearchModel.MinPrice" min="0">
-    </div>
-
-    <div class="form-group">
-        <label for="MaxPrice">Högsta pris</label>
-        <input type="number" name="MaxPrice" id="MaxPrice" value="@Model.SearchModel.MaxPrice">
-    </div>
-
-    <input type="submit" value="Sök">
-    <a href="/ads">Nollställ filter</a>
-</form>
-
-
-@* Cards *@
-@if (Model.Horses.Count == 0)
-{
-    <p>Inga annonser hittades</p>
-}
-@foreach (var horse in Model.Horses)
-{
-    //Räkna ut hästens ålder i år
-    var horseAge = DateTime.Now.Year - horse.BirthDate.Year;
-
-    string saleText;
-    //Säljtext avklippt
-    if (horse.Content!.Length > 100)
-    {
-        saleText = horse.Content.Substring(0, 100) + "...";
-    }
-    else
-    {
-        saleText = horse.Content;
-    }
-
-    <div class="card">
-        <a asp-action="Details" asp-route-id="@horse.Id">
-            @if (!string.IsNullOrEmpty(horse.ImagePath))
-            {
-                <img src="@horse.ImagePath" alt="Hästbild" />
-            }
-            else
-            {
-                <img src="images/horses/website-images/outline.svg" />
-            }
-            <div class="card-info">
-                <h2>@horse.Title</h2>
-                <p>@horse.Gender @horseAge år @horse.AdType</p>
-                <p>@(horse.Discipline != null ? horse.Discipline : "")</p>
-                <p>@(horse.Breed != null ? horse.Breed : "")</p>
-                <p>@(horse.Height != null ? horse.Height : "") cm</p>
-                <p>@saleText</p>
-                <p>@horse.Price kr</p>
-            </div>
-        </a>
-        <div class="controls">
-            @if (horse.UserId == loggedInUserId)
-            {
-                <a asp-action="Edit" asp-route-id="@horse.Id" class="link">Edit</a>
-                <a asp-action="Delete" asp-route-id="@horse.Id" class="link">Delete</a>
-            }
+    @* Filtreringsformulär *@
+    <form asp-controller="Horse" asp-action="Index" method="GET" class="filter-form">
+        <div class="form-title">
+            <h2>Filtrera sökning</h2>
+            <button><i class="fa-solid fa-chevron-down"></i></button>
         </div>
+        <div class="toggle-form hidden">
+            <div class="form-group">
+                <label for="Title">Annonstitel</label>
+                <input type="text" name="Title" id="Title" value="@Model.SearchModel.Title">
+            </div>
+
+            @* Ålder *@
+            <div class="flex-group">
+                <div class="form-group">
+                    <label for="MinAge">Lägsta ålder</label>
+                    <input type="number" name="MinAge" id="MinAge" value="@Model.SearchModel.MinAge" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="MaxAge">Högsta ålder</label>
+                    <input type="number" name="MaxAge" id="MaxAge" value="@Model.SearchModel.MaxAge">
+                </div>
+            </div>
+
+            <div class="flex-group">
+
+
+                @* Kön *@
+                <div class="form-group">
+                    @{
+                        //Val i enum
+                        var genderOptions = new List<string> { "Hingst", "Sto", "Valack" };
+                        //Gör om till strings (enums lagras som integer i databas)
+                        var selectedGender = Model.SearchModel.Gender?.ToString();
+                    }
+
+                    <label for="Gender">Kön</label>
+                    <select name="Gender" id="Gender">
+                        @if (selectedGender == null)
+                        {
+                            //Man får inte ha @ i options-taggar. Extremt störigt gjort av Microsoft
+                            <option value="" disabled selected>Välj i listan</option>
+                        }
+                        else
+                        {
+                            <option value="" disabled>Välj i listan</option>
+                        }
+
+                        @foreach (var gender in genderOptions)
+                        {
+                            if (selectedGender == gender)
+                            {
+                                <option value="@gender" selected>@gender</option>
+                            }
+                            else
+                            {
+                                <option value="@gender">@gender</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                @* Ras *@
+                <div class="form-group">
+                    <label for="Breed">Ras</label>
+                    <input type="text" name="Breed" id="Breed" value="@Model.SearchModel.Breed">
+                </div>
+            </div>
+
+            @* Mankhöjd *@
+            <div class="flex-group">
+                <div class="form-group">
+                    <label for="MinHeight">Lägsta mankhöjd (cm)</label>
+                    <input type="number" name="MinHeight" id="MinHeight" value="@Model.SearchModel.MinHeight">
+                </div>
+
+                <div class="form-group">
+                    <label for="MaxHeight">Högsta mankhöjd (cm)</label>
+                    <input type="number" name="MaxHeight" id="MaxHeight" value="@Model.SearchModel.MaxHeight">
+                </div>
+            </div>
+
+            @* Köpes/Säljes *@
+            <div class="flex-group">
+
+                <div class="form-group">
+                    <label for="AdType">Annonstyp</label>
+                    @{
+                        //Val i enum
+                        var adTypeOptions = new List<string> { "Säljes", "Köpes" };
+                        //Gör om till strings (enums lagras som integer i databas)
+                        var selectedAdType = Model.SearchModel.AdType?.ToString();
+                    }
+                    <select name="AdType" id="AdType">
+                        @if (selectedAdType == null)
+                        {
+                            <option value="" disabled selected>Välj i listan</option>
+                        }
+                        else
+                        {
+                            <option value="" disabled>Välj i listan</option>
+                        }
+
+                        @foreach (var AdType in adTypeOptions)
+                        {
+                            if (selectedAdType == AdType)
+                            {
+                                <option value="@AdType" selected>@AdType</option>
+                            }
+                            else
+                            {
+                                <option value="@AdType">@AdType</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                @* Disciplin *@
+                <div class="form-group">
+                    <label for="Discipline">Inriktning</label>
+                    <input type="text" name="Discipline" id="Discipline" value="@Model.SearchModel.Discipline">
+                </div>
+            </div>
+
+            @* Pris *@
+            <div class="flex-group">
+                <div class="form-group">
+                    <label for="MinPrice">Lägsta pris</label>
+                    <input type="number" name="MinPrice" id="MinPrice" value="@Model.SearchModel.MinPrice" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="MaxPrice">Högsta pris</label>
+                    <input type="number" name="MaxPrice" id="MaxPrice" value="@Model.SearchModel.MaxPrice">
+                </div>
+            </div>
+
+            <div class="controls">
+                <input type="submit" value="Sök">
+                <a href="/ads" class="btn-link">Nollställ filter</a>
+            </div>
+        </div>
+    </form>
+
+
+    @* Cards *@
+    @if (Model.Horses.Count == 0)
+    {
+        <p>Inga annonser hittades</p>
+    }
+    @foreach (var horse in Model.Horses)
+    {
+        //Räkna ut hästens ålder i år
+        var horseAge = DateTime.Now.Year - horse.BirthDate.Year;
+
+        string saleText;
+        //Säljtext avklippt
+        if (horse.Content!.Length > 100)
+        {
+            saleText = horse.Content.Substring(0, 100) + "...";
+        }
+        else
+        {
+            saleText = horse.Content;
+        }
+
+        <div class="horse-card card">
+            <a asp-action="Details" asp-route-id="@horse.Id">
+                @if (!string.IsNullOrEmpty(horse.ImagePath))
+                {
+                    <img src="@horse.ImagePath" alt="Hästbild" />
+                }
+                else
+                {
+                    <img src="images/horses/website-images/outline.svg" class="default-img" />
+                }
+                <div class="card-info">
+                    <h2>@horse.Title</h2>
+                    <div class="ad-flex">
+                        <p>@horse.Gender</p>
+                        <p>@horseAge år</p>
+                        <p class="ad-type">@horse.AdType</p>
+                    </div>
+                    <div class="ad-flex">
+
+                        <p>@(horse.Discipline != null ? horse.Discipline : "")</p>
+                        <p>@(horse.Breed != null ? horse.Breed : "")</p>
+                        <p>@(horse.Height != null ? horse.Height + " cm" : "")</p>
+                    </div>
+                    <p class="sale-text">@saleText</p>
+                    <p class="ad-price">@horse.Price kr</p>
+                </div>
+            </a>
+            <div class="controls">
+                @if (horse.UserId == loggedInUserId)
+                {
+                    <a asp-action="Edit" asp-route-id="@horse.Id" class="btn-link">Ändra</a>
+                    <a asp-action="Delete" asp-route-id="@horse.Id" class="btn-link">Radera</a>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="pagination">
+        @if (Model.HasPreviousPage)
+        {
+            <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" class="page-link">Föregående</a>
+        }
+
+        <span>Sida @Model.PageNumber av @Model.TotalPages</span>
+
+        @if (Model.HasNextPage)
+        {
+            <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)" class="page-link">Nästa</a>
+        }
     </div>
-}
-
-<div class="pagination">
-    @if (Model.HasPreviousPage)
-    {
-        <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)">Föregående</a>
-    }
-
-    <span>Sida @Model.PageNumber av @Model.TotalPages</span>
-
-    @if (Model.HasNextPage)
-    {
-        <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)">Nästa</a>
-    }
 </div>
+
+
+<script>
+    //Knapp
+    const button = document.querySelector(".form-title button");
+    //Formulär
+    const form = document.querySelector(".toggle-form");
+
+    //Event
+    button.addEventListener("click", (e) => {
+        e.preventDefault();
+        button.classList.toggle("active");
+        form.classList.toggle("hidden");
+    });
+</script>

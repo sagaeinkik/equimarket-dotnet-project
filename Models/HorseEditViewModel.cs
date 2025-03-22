@@ -17,18 +17,18 @@ public class HorseEditViewModel
     //Namn
     [Required(ErrorMessage = "Du måste fylla i hästens namn")]
     [StringLength(80, ErrorMessage = "Namnet måste vara mellan 2 och 80 tecken långt.", MinimumLength = 2)]
-    [Display(Name = "Namn")]
+    [Display(Name = "Namn*")]
     public string? Name { get; set; }
 
     //Födelsedatum
     [Required(ErrorMessage = "Du måste fylla i födelsedatum")]
     [DataType(DataType.Date)]
-    [Display(Name = "Födelsedatum")]
+    [Display(Name = "Födelsedatum*")]
     public DateTime BirthDate { get; set; }
 
     //Kön
     [Required(ErrorMessage = "Du måste fylla i kön")]
-    [Display(Name = "Kön")]
+    [Display(Name = "Kön*")]
     public GenderType? Gender { get; set; }
 
     //Ras
@@ -41,7 +41,7 @@ public class HorseEditViewModel
 
     //Annonstyp
     [Required(ErrorMessage = "Du måste fylla i annonstyp")]
-    [Display(Name = "Annonstyp")]
+    [Display(Name = "Annonstyp*")]
     public AdType? AdType { get; set; }
 
     //Disciplin/inriktning
@@ -67,22 +67,24 @@ public class HorseEditViewModel
     //Säljtitel
     [Required(ErrorMessage = "Du måste ange en annonstitel")]
     [StringLength(150, ErrorMessage = "Titeln måste vara mellan 2 och 150 tecken långt.", MinimumLength = 2)]
-    [Display(Name = "Annonstitel")]
+    [Display(Name = "Annonstitel*")]
     public string? Title { get; set; }
 
     //Annonsinnehåll
     [Required(ErrorMessage = "Du måste fylla i annonsinnehåll")]
     [StringLength(5000, ErrorMessage = "Innehållet får vara max 5000 tecken långt.")]
-    [Display(Name = "Annonsinnehåll")]
+    [Display(Name = "Annonsinnehåll*")]
     public string? Content { get; set; }
 
     //Bild
     [Display(Name = "Bild")]
     public IFormFile? ImageFile { get; set; }
+    public bool HasImage { get; set; }
 
     //Pris
-    [Display(Name = "Pris")]
+    [Display(Name = "Pris*")]
     [Required(ErrorMessage = "Du måste fylla i pris.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Pris måste vara minst 1kr.")]
     public int Price { get; set; }
 
 }

@@ -31,15 +31,34 @@
         font-size: 1.7em;
     }
 
-    //Kontaktuppgifter
-    .contact-info {
-        background-color: white;
+    //Innehåll
+    .ad-content {
         padding: 1em;
         border-radius: 5px;
+        background-color: white;
+        margin-top: 1em;
+
+        .sale-text {
+            white-space: pre-wrap;
+        }
+    }
+
+    //Kontaktuppgifter
+    .contact-info {
+        padding: 1em;
         margin-bottom: 1em;
 
         h3 {
             margin-top: 0;
+        }
+
+        //Kontakta säljaren-knapp
+        .btn-link {
+            background-color: v.$mediumdark;
+
+            &:hover {
+                background-color: v.$dark;
+            }
         }
     }
 
@@ -48,5 +67,10 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 1em;
+        padding: 0 1em;
+    }
+
+    .back-link {
+        margin-left: 1em;
     }
 }
