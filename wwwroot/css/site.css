@@ -411,6 +411,10 @@ footer {
   align-items: end;
   margin-top: 1em;
 }
+.filter-form .controls input[type=submit]:hover {
+  background-color: #aba29c;
+  color: black;
+}
 .filter-form .controls a {
   display: block;
 }

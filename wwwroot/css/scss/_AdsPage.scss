@@ -22,6 +22,12 @@
         align-items: end;
         margin-top: 1em;
 
+        //Sök-knapp
+        input[type='submit']:hover {
+            background-color: v.$mediumlight;
+            color: black;
+        }
+
         a {
             display: block;
 
