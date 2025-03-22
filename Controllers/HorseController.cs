@@ -43,7 +43,7 @@ namespace EquiMarket.Controllers
             //Filtrering på titel
             if (!string.IsNullOrEmpty(model.Title))
             {
-                query = query.Where(h => h.Title!.Contains(model.Title));
+                query = query.Where(h => h.Title!.ToLower().Contains(model.Title.ToLower()));
             }
 
             //Minimiålder
@@ -67,7 +67,7 @@ namespace EquiMarket.Controllers
             //Ras
             if (!string.IsNullOrEmpty(model.Breed))
             {
-                query = query.Where(h => h.Breed!.Contains(model.Breed));
+                query = query.Where(h => h.Breed!.ToLower().Contains(model.Breed.ToLower()));
             }
 
             //Minhöjd
@@ -91,7 +91,7 @@ namespace EquiMarket.Controllers
             //Disciplin
             if (!string.IsNullOrEmpty(model.Discipline))
             {
-                query = query.Where(h => h.Discipline!.Contains(model.Discipline));
+                query = query.Where(h => h.Discipline!.ToLower().Contains(model.Discipline.ToLower()));
             }
 
             //Minpris

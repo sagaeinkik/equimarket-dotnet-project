@@ -224,7 +224,10 @@
             <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" class="page-link">Föregående</a>
         }
 
-        <span>Sida @Model.PageNumber av @Model.TotalPages</span>
+        @if (Model.TotalPages > 0)
+        {
+            <span>Sida @Model.PageNumber av @Model.TotalPages</span>
+        }
 
         @if (Model.HasNextPage)
         {

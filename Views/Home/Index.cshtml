@@ -17,9 +17,9 @@
         färger och format, för att hjälpa just dig hitta helt rätt.</p>
     <p>Här kan du annonsera helt gratis, oavsett om du vill sälja din häst eller om du söker efter din nästa springare
         med ljus och lykta.</p>
-    <h2>I blickfånget</h2>
-    @if (Model != null)
+    @if (Model != null && Model!.Count > 0)
     {
+        <h2>I blickfånget</h2>
         <div class="frontpage-horses">
 
             @foreach (var horse in Model)
@@ -47,7 +47,7 @@
                 </div>
             }
         </div>
+        <a asp-action="Index" asp-controller="Horse" class="btn-link fp-link">Se fler annonser</a>
     }
 
-    <a asp-action="Index" asp-controller="Horse" class="btn-link fp-link">Se fler annonser</a>
 </div>
